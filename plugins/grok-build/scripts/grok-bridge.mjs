@@ -739,7 +739,14 @@ async function handleTask(argv) {
     booleanOptions: ["json", "write", "resume-last", "resume", "fresh", "background"],
     aliasMap: {
       m: "model"
-    }
+    },
+    // The positional argument here is free-form prompt text, not a fixed
+    // set of flags -- a brief that discusses CLI syntax (dashes, flag
+    // names, job ids) must not have those words silently dropped by the
+    // unknown-option warn path (parseCommandInput's default). Unrecognized
+    // flag-shaped tokens fall back into positionals instead, so they stay
+    // part of the prompt.
+    unknownMode: "positional"
   });
 
   const cwd = resolveCommandCwd(options);
