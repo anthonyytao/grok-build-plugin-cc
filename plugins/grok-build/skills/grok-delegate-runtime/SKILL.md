@@ -30,7 +30,7 @@ Command selection:
 - `--resume`: always use `run --resume-last`, even if the request text is ambiguous.
 - `--fresh`: always use a fresh `run`, even if the request sounds like a follow-up.
 - `--effort`: accepted values are `low`, `medium`, `high`.
-- `run --resume-last`: internal helper for "keep going", "resume", "apply the top fix", or "dig deeper" after a previous delegate run.
+- Use `run --resume-last` only when the request explicitly asks to continue, extend, or keep working on Grok's own prior task in this thread (using one of: "continue", "keep going", "resume", "apply the top fix", "dig deeper", or an equivalent unambiguous continuation instruction) or when the request itself contains an explicit `--resume` token. A request to review, re-review, or assess an updated/new diff or piece of content is NEVER a continuation request on its own, even if it mentions or contrasts with a prior review — default to a fresh run (no `run --resume-last`) for those. When genuinely ambiguous, prefer a fresh run: a fresh run wastes some redundant context; an incorrectly resumed run silently reuses stale reasoning and produces a plausible-looking but wrong answer.
 
 Safety rules:
 - Default to write-capable Grok work in `grok-build:grok-delegate` unless the user explicitly asks for read-only behavior.

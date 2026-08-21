@@ -31,7 +31,7 @@ node "${CLAUDE_PLUGIN_ROOT}/scripts/grok-bridge.mjs" run-resume-candidate --json
 - The two choices must be:
   - `Continue current Grok thread`
   - `Start a new Grok thread`
-- If the user is clearly giving a follow-up instruction such as "continue", "keep going", "resume", "apply the top fix", or "dig deeper", put `Continue current Grok thread (Recommended)` first.
+- Put `Continue current Grok thread (Recommended)` first only when the request explicitly asks to continue, extend, or keep working on Grok's own prior task in this thread (using one of: "continue", "keep going", "resume", "apply the top fix", "dig deeper", or an equivalent unambiguous continuation instruction). An explicit `--resume` token already means the user chose continue and skips this prompt. A request to review, re-review, or assess an updated/new diff or piece of content is NEVER a continuation request on its own, even if it mentions or contrasts with a prior review — put `Start a new Grok thread (Recommended)` first for those. When genuinely ambiguous, put `Start a new Grok thread (Recommended)` first: a fresh thread wastes some redundant context; an incorrectly continued thread silently reuses stale reasoning and produces a plausible-looking but wrong answer.
 - Otherwise put `Start a new Grok thread (Recommended)` first.
 - If the user chooses continue, add `--resume` before routing to the subagent.
 - If the user chooses a new thread, add `--fresh` before routing to the subagent.
