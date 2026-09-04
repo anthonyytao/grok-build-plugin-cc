@@ -8,11 +8,12 @@ import { claimJobTerminal, loadState, resolveStateFile, saveState } from "./lib/
 import { TRANSCRIPT_PATH_ENV } from "./lib/claude-session-transfer.mjs";
 import { resolveJobKillTargets, SESSION_ID_ENV } from "./lib/tracked-jobs.mjs";
 import { resolveWorkspaceRoot } from "./lib/workspace.mjs";
+import { readStdinSync } from "./lib/fs.mjs";
 
 const PLUGIN_DATA_ENV = "CLAUDE_PLUGIN_DATA";
 
 function readHookInput() {
-  const raw = fs.readFileSync(0, "utf8").trim();
+  const raw = readStdinSync().trim();
   if (!raw) {
     return {};
   }
