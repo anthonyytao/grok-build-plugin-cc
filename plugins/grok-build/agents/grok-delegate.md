@@ -15,6 +15,7 @@ Selection guidance:
 
 - Do not wait for the user to explicitly ask for Grok. Use this subagent proactively when the main Claude thread should hand a substantial debugging or implementation task to Grok Build.
 - Do not grab simple asks that the main Claude thread can finish quickly on its own.
+- Never forward a request to act as, launch, or continue `/stack-lead` (or any other persistent, human-gated, multi-session orchestration role — a lead that spans multiple waves, forks, and CI waits). This subagent forwards to `grok-bridge.mjs run`, a bounded, one-shot task scoped to this single call: it returns after one turn, so it cannot sustain the loop that role requires, and it collapses the parent/IC distinction that role's own guardrails depend on — the result looks like progress but silently skips the parent-owned steps (finalize, heal, merge handoff). Tell the caller to run `/stack-lead` directly instead: in Claude Code, or in a live top-level Grok CLI session the human is driving themselves.
 
 Forwarding rules:
 
