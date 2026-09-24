@@ -190,10 +190,28 @@ test("critique forwards --model and --effort to grok", () => {
   assert.equal(argv[argv.indexOf("--effort") + 1], "medium");
 });
 
+test("review forwards --effort xhigh to grok", () => {
+  const { repo, binDir, pluginDataDir, fakeGrokLog } = setupReviewableRepo();
+
+  const result = run(
+    "node",
+    [SCRIPT, "review", "--model", "grok-build", "--effort", "xhigh"],
+    {
+      cwd: repo,
+      env: pluginDataEnv(pluginDataDir, binDir, { FAKE_GROK_LOG: fakeGrokLog })
+    }
+  );
+
+  assert.equal(result.status, 0, result.stderr);
+  const argv = lastFakeGrokArgv(fakeGrokLog);
+  assert.ok(argv.includes("--effort"));
+  assert.equal(argv[argv.indexOf("--effort") + 1], "xhigh");
+});
+
 test("review rejects unsupported --effort values", () => {
   const { repo, binDir, pluginDataDir } = setupReviewableRepo();
 
-  for (const effort of ["extreme", "xhigh", "max"]) {
+  for (const effort of ["extreme", "max"]) {
     const result = run("node", [SCRIPT, "review", "--effort", effort], {
       cwd: repo,
       env: pluginDataEnv(pluginDataDir, binDir)

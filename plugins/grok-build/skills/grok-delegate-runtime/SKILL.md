@@ -29,7 +29,7 @@ Command selection:
 - If the forwarded request includes `--fresh`, strip that token from the task text and do not add `--resume-last`.
 - `--resume`: always use `run --resume-last`, even if the request text is ambiguous.
 - `--fresh`: always use a fresh `run`, even if the request sounds like a follow-up.
-- `--effort`: accepted values are `low`, `medium`, `high`.
+- `--effort`: accepted values are `low`, `medium`, `high`, `xhigh`.
 - Use `run --resume-last` only when the request explicitly asks to continue, extend, or keep working on Grok's own prior task in this thread (using one of: "continue", "keep going", "resume", "apply the top fix", "dig deeper", or an equivalent unambiguous continuation instruction) or when the request itself contains an explicit `--resume` token. A request to review, re-review, or assess an updated/new diff or piece of content is NEVER a continuation request on its own, even if it mentions or contrasts with a prior review — default to a fresh run (no `run --resume-last`) for those. When genuinely ambiguous, prefer a fresh run: a fresh run wastes some redundant context; an incorrectly resumed run silently reuses stale reasoning and produces a plausible-looking but wrong answer.
 
 Safety rules:
