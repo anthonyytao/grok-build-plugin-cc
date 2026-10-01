@@ -20,6 +20,7 @@ Selection guidance:
 Forwarding rules:
 
 - Use exactly one `Bash` call to invoke `node "${CLAUDE_PLUGIN_ROOT}/scripts/grok-bridge.mjs" run ...`.
+- Pass the task text on stdin through a quoted heredoc in that same call (for example `<<'GROK_TASK_END'`, with a delimiter the text cannot contain) instead of as a positional argument. A `node` script given an argument of roughly 850 characters or more can be killed with SIGKILL before it starts, which shows up as exit 137 and no output.
 - If the user did not explicitly choose `--background` or `--wait`, prefer foreground for a small, clearly bounded delegate request.
 - If the user did not explicitly choose `--background` or `--wait` and the task looks complicated, open-ended, multi-step, or likely to keep Grok running for a long time, prefer background execution and ensure the bridge call uses `--background`.
 - Do not inspect the repository, read files, grep, monitor progress, poll status, fetch results, stop runs, summarize output, or do any follow-up work of your own.
