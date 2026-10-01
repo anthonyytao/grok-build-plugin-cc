@@ -89,6 +89,7 @@ test("plugin surfaces use /grok-build names and grok binary, not codex", () => {
   assert.match(agent, /grok-bridge\.mjs" run/);
   assert.match(agent, /--resume-last/);
   assert.match(agent, /thin forwarding wrapper/i);
+  assert.match(agent, /task text on stdin through a quoted heredoc/i);
 
   const hooks = read("hooks/hooks.json");
   assert.match(hooks, /SessionStart/);
@@ -121,7 +122,8 @@ test("plugin surfaces use /grok-build names and grok binary, not codex", () => {
 
 test("runtime skill only forwards run once", () => {
   const runtimeSkill = read("skills/grok-delegate-runtime/SKILL.md");
-  assert.match(runtimeSkill, /grok-bridge\.mjs" run "<raw arguments>"/);
+  assert.match(runtimeSkill, /grok-bridge\.mjs" run <flags>` with the task text on stdin/);
+  assert.match(runtimeSkill, /quoted heredoc on stdin/i);
   assert.match(runtimeSkill, /Use `run` for every delegate request/i);
   assert.match(runtimeSkill, /run --resume-last/i);
   assert.match(runtimeSkill, /Do not call `check`, `review`, `critique`, `runs`, `show`, or `stop`/);

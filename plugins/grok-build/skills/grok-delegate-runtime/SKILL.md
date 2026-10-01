@@ -9,9 +9,10 @@ user-invocable: false
 Use this skill only inside the `grok-build:grok-delegate` subagent.
 
 Primary helper:
-- `node "${CLAUDE_PLUGIN_ROOT}/scripts/grok-bridge.mjs" run "<raw arguments>"`
+- `node "${CLAUDE_PLUGIN_ROOT}/scripts/grok-bridge.mjs" run <flags>` with the task text on stdin
 
 Execution rules:
+- Feed the task text through a quoted heredoc on stdin (`<<'GROK_TASK_END'`) rather than as a positional argument. A `node` script given an argument of roughly 850 characters or more can be killed with SIGKILL before it starts, which shows up as exit 137 and no output.
 - The delegate subagent is a forwarder, not an orchestrator. Its only job is to invoke `run` once and return that stdout unchanged.
 - Prefer the helper over hand-rolled `git`, direct Grok CLI strings, or any other Bash activity.
 - Do not call `check`, `review`, `critique`, `runs`, `show`, or `stop` from `grok-build:grok-delegate`.
